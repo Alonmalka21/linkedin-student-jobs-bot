@@ -263,8 +263,11 @@ def main() -> int:
     if hasattr(sys.stdout, "reconfigure"):
         sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
-    token = os.environ.get("TELEGRAM_BOT_TOKEN", "").strip()
-    chat_id = os.environ.get("TELEGRAM_CHAT_ID", "").strip()
+    # Secrets piped in via some shells (e.g. PowerShell) can carry an
+    # invisible BOM/zero-width prefix; strip those along with whitespace.
+    junk = "\ufeff\u200b \t\r\n"
+    token = os.environ.get("TELEGRAM_BOT_TOKEN", "").strip(junk)
+    chat_id = os.environ.get("TELEGRAM_CHAT_ID", "").strip(junk)
     dry_run = not (token and chat_id)
     if dry_run:
         log("[dry-run] TELEGRAM_BOT_TOKEN / TELEGRAM_CHAT_ID not set; printing only.")
@@ -344,10 +347,12 @@ def main() -> int:
                 )
                 for i in range(0, len(new_jobs), 5):
                     batch = new_jobs[i:i + 5]
+                    log(f"  [send digest] jobs {i + 1}-{i + len(batch)}")
                     telegram_send(token, chat_id, format_digest(batch))
                     seen_ids.extend(j["id"] for j in batch)
             else:
                 for job in new_jobs:
+                    log(f"  [send] {job['title']} | {job['company']}")
                     telegram_send(token, chat_id, format_job(job), button_url=job["url"])
                     seen_ids.append(job["id"])
         else:
