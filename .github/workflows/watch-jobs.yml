@@ -3,6 +3,8 @@ name: watch-jobs
 on:
   schedule:
     # Every 15 minutes, offset from :00 to avoid GitHub's busiest cron slots.
+    # New repos can take a while before GitHub starts honoring the schedule;
+    # a push touching this file re-registers it.
     # NOTE: on a PRIVATE repo change to "7,37 * * * *" (every 30 min) to stay
     # inside the 2000 free minutes per month.
     - cron: "7,22,37,52 * * * *"
