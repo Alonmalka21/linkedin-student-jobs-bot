@@ -46,7 +46,7 @@
 
 ## משלים מקומי פעיל (הוגדר 2026-08-17)
 
-בנוסף לענן, במחשב של אלון רצה משימת Task Scheduler בשם `linkedin-bot-local-bridge` פעם בשעה (כשהמחשב דלוק): היא מריצה את `extras/run_local_bridge.ps1`, שבודק מה-IP הביתי (לינקדאין מגישה לדאטה-סנטרים פידים חלקיים, ומהבית רואים יותר), שולח התראות ומסנכרן state לריפו. ניהול: `schtasks /Query /TN linkedin-bot-local-bridge`, הסרה: `schtasks /Delete /TN linkedin-bot-local-bridge /F`.
+בנוסף לענן, במחשב של אלון רצה משימת Task Scheduler בשם `linkedin-bot-local-bridge` פעם בשעה (כשהמחשב דלוק): היא מריצה את `extras/run_local_bridge.ps1` דרך המשגר השקט `extras/run_local_bridge_hidden.vbs` (wscript הוא מארח ללא קונסולה, כך שלא מופיע שום הבזק חלון). הסקריפט בודק מה-IP הביתי (לינקדאין מגישה לדאטה-סנטרים פידים חלקיים, ומהבית רואים יותר), שולח התראות ומסנכרן state לריפו. ניהול: `schtasks /Query /TN linkedin-bot-local-bridge`, הסרה: `schtasks /Delete /TN linkedin-bot-local-bridge /F`.
 
 ## הרצה מקומית (אופציונלי)
 
