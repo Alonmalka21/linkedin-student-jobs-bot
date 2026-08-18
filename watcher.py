@@ -130,12 +130,12 @@ def fetch_search(params: dict, seen_set: set[str]) -> list[dict]:
 
     The guest feed "flickers": each sort order occasionally drops jobs
     (promoted ones especially), and what one sort misses the other tends to
-    serve. Pass 1 sorts by date (newest first), so once a whole page is
-    already known everything deeper is older and known too - stop early.
-    Pass 2 sorts by relevance at fixed depth, mirroring the default view
-    of the search page; it may not stop early, a new job can rank anywhere.
+    serve. Both passes scan the full cap depth. An early-stop on an
+    all-seen page was removed 2026-08-17: the feed SAMPLES matches, so a
+    never-seen job can appear deep in the list behind a fully-known page
+    (observed live with a Check Point posting), and early-stop skipped it.
     """
-    jobs = _fetch_pass(params, "DD", seen_set, early_stop=True)
+    jobs = _fetch_pass(params, "DD", seen_set, early_stop=False)
     date_count = len(jobs)
     for job_id, job in _fetch_pass(params, "R", seen_set, early_stop=False).items():
         jobs.setdefault(job_id, job)
