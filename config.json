@@ -15,6 +15,17 @@
       }
     },
     {
+      "label": "EN+",
+      "match_word": "student",
+      "match_in": ["title"],
+      "params": {
+        "keywords": "student position",
+        "location": "Israel",
+        "geoId": "101620260",
+        "f_TPR": "r86400"
+      }
+    },
+    {
       "label": "עברית",
       "match_word": "סטודנט",
       "match_in": ["title"],
